@@ -1,0 +1,11 @@
+bundle:
+  name: electrocasa-lakehouse
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    mode: development
+  prod:
+    mode: production
