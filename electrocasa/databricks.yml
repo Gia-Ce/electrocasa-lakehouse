@@ -17,8 +17,8 @@ targets:
     default: true
     mode: development
     workspace:
-      host: ${var.workspace_host}
-      root_path: /Workspace/Users/${var.workspace_user}/.bundle/${bundle.name}/${bundle.target}
+      host: https://adb-7405619671154899.19.azuredatabricks.net/
+      root_path: /Workspace/Users/gianella@gersonproutlook.onmicrosoft.com/.bundle/${bundle.name}/${bundle.target}
     variables:
       env_name: "dev"
       tag_environment: "dev"
@@ -30,8 +30,8 @@ targets:
   prod:
     mode: production
     workspace:
-      host: ${var.workspace_host}
-      root_path: /Workspace/Users/${var.workspace_user}/.bundle/${bundle.name}/${bundle.target}
+      host: https://adb-7405619671154899.19.azuredatabricks.net/
+      root_path: /Workspace/Users/gianella@gersonproutlook.onmicrosoft.com/.bundle/${bundle.name}/${bundle.target}
     variables:
       env_name: "prod"
       tag_environment: "prod"
