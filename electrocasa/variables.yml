@@ -1,10 +1,10 @@
 variables:
   workspace_host:
     description: URL del workspace de Azure Databricks
-    default: ""
+    default: "adb-7405619671154899.19.azuredatabricks.net/"
   workspace_user:
     description: Usuario con el que se despliega manualmente el bundle
-    default: ""
+    default: "gianella@gersonproutlook.onmicrosoft.com"
   env_name:
     default: ""
   tag_environment:
