@@ -1,0 +1,32 @@
+resources:
+  jobs:
+    job_electrocasa_wkf_end_to_end:
+      name: job_electrocasa_wkf_end_to_end
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: ingesta_productos
+          notebook_task:
+            notebook_path: notebooks/ingestion/ingesta_productos.py
+            base_parameters:
+              catalogo: ${var.catalogo}
+              path_landing: ${var.path_landing}
+        - task_key: ingesta_tracking
+          notebook_task:
+            notebook_path: notebooks/ingestion/ingesta_tracking.py
+            base_parameters:
+              catalogo: ${var.catalogo}
+        - task_key: ingest_bronze
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.etl_electrocasa_ingest_bronze.id}
+        - task_key: bronze_silver
+          depends_on:
+            - task_key: ingesta_productos
+            - task_key: ingesta_tracking
+            - task_key: ingest_bronze
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.etl_electrocasa_bronze_silver.id}
+        - task_key: silver_gold
+          depends_on:
+            - task_key: bronze_silver
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.etl_electrocasa_silver_gold.id}
