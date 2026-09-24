@@ -30,3 +30,12 @@ resources:
             - task_key: bronze_silver
           pipeline_task:
             pipeline_id: ${resources.pipelines.etl_electrocasa_silver_gold.id}
+        - task_key: aplicar_seguridad
+          depends_on:
+            - task_key: silver_gold
+          notebook_task:
+            notebook_path: ../notebooks/governance/aplicar_seguridad.py
+            base_parameters:
+              catalogo: ${var.catalogo}
+          max_retries: 1
+          min_retry_interval_millis: 60000
