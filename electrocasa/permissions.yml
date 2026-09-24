@@ -1,0 +1,44 @@
+targets:
+  dev:
+    resources:
+      jobs:
+        job_electrocasa_wkf_end_to_end:
+          permissions:
+            - group_name: electrocasa_engineers
+              level: CAN_MANAGE
+      pipelines:
+        etl_electrocasa_ingest_bronze:
+          permissions:
+            - group_name: electrocasa_engineers
+              level: CAN_MANAGE
+        etl_electrocasa_bronze_silver:
+          permissions:
+            - group_name: electrocasa_engineers
+              level: CAN_MANAGE
+        etl_electrocasa_silver_gold:
+          permissions:
+            - group_name: electrocasa_engineers
+              level: CAN_MANAGE
+
+  prod:
+    resources:
+      jobs:
+        job_electrocasa_wkf_end_to_end:
+          permissions:
+            - group_name: electrocasa_engineers
+              level: CAN_MANAGE
+            - group_name: electrocasa_auditors
+              level: CAN_VIEW
+      pipelines:
+        etl_electrocasa_ingest_bronze:
+          permissions:
+            - group_name: electrocasa_engineers
+              level: CAN_MANAGE
+        etl_electrocasa_bronze_silver:
+          permissions:
+            - group_name: electrocasa_engineers
+              level: CAN_MANAGE
+        etl_electrocasa_silver_gold:
+          permissions:
+            - group_name: electrocasa_engineers
+              level: CAN_MANAGE
