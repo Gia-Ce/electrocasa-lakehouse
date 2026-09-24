@@ -1,0 +1,23 @@
+resources:
+  pipelines:
+    etl_electrocasa_ingest_bronze:
+      name: etl_electrocasa_ingest_bronze
+      catalog: ${var.catalogo}
+      schema: ${var.schema_bronze}
+      serverless: true
+      photon: true
+      development: ${var.development_mode_pipeline}
+      libraries:
+        - glob:
+            include: ../notebooks/pipelines/bronze/**
+      configuration:
+        path_landing: ${var.path_landing}
+        path_schema_base: ${var.path_schema_base}
+      tags:
+        environment: ${var.tag_environment}
+        dominio: electrocasa
+        capa: bronze
+      event_log:
+        name: event_log_etl_electrocasa_ingest_bronze
+        catalog: ${var.catalogo}
+        schema: ${var.schema_observability}

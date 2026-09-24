@@ -1,0 +1,20 @@
+resources:
+  pipelines:
+    etl_electrocasa_silver_gold:
+      name: etl_electrocasa_silver_gold
+      catalog: ${var.catalogo}
+      schema: ${var.schema_gold}
+      serverless: true
+      photon: true
+      development: ${var.development_mode_pipeline}
+      libraries:
+        - glob:
+            include: ../notebooks/pipelines/gold/**
+      tags:
+        environment: ${var.tag_environment}
+        dominio: electrocasa
+        capa: gold
+      event_log:
+        name: event_log_etl_electrocasa_silver_gold
+        catalog: ${var.catalogo}
+        schema: ${var.schema_observability}

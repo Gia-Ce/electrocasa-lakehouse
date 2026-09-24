@@ -22,9 +22,9 @@ targets:
     variables:
       env_name: "dev"
       tag_environment: "dev"
-      catalogo: "electrocasa_dev"
-      path_landing: "/Volumes/electrocasa_dev/bronze/landing"
-      path_schema_base: "/Volumes/electrocasa_dev/bronze/landing/schemas"
+      catalogo: "electrocasa"
+      path_landing: "/Volumes/electrocasa/bronze/landing"
+      path_schema_base: "/Volumes/electrocasa/bronze/landing/schemas"
       development_mode_pipeline: true
 
   prod:
