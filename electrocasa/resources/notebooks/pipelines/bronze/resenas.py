@@ -2,7 +2,7 @@ from pyspark import pipelines as dp
 from pyspark.sql import SparkSession
 
 from src.common.utils import read_autoloader_stream, add_audit_columns
-from src.electrocasa.schemas.bronze.resenas import schema_resenas
+from src.electrocasa.schemas.resenas import schema_resenas
 
 spark = SparkSession.builder.getOrCreate()
 

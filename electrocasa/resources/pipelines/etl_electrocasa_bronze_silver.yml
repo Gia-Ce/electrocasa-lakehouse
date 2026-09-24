@@ -7,6 +7,8 @@ resources:
       serverless: true
       photon: true
       development: ${var.development_mode_pipeline}
+      # sync.paths coloca src/ dentro de files/; Python necesita su directorio padre.
+      root_path: ${workspace.root_path}/files
       libraries:
         - glob:
             include: ../notebooks/pipelines/silver/**
