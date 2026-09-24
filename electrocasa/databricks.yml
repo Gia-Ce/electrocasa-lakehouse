@@ -1,0 +1,41 @@
+bundle:
+  name: electrocasa
+
+sync:
+  paths:
+    - "."
+    - "../src"
+
+include:
+  - variables.yml
+  - permissions.yml
+  - resources/*.yml
+  - resources/**/*.yml
+
+targets:
+  dev:
+    default: true
+    mode: development
+    workspace:
+      host: ${var.workspace_host}
+      root_path: /Workspace/Users/${var.workspace_user}/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      env_name: "dev"
+      tag_environment: "dev"
+      catalogo: "electrocasa_dev"
+      path_landing: "/Volumes/electrocasa_dev/bronze/landing"
+      path_schema_base: "/Volumes/electrocasa_dev/bronze/landing/schemas"
+      development_mode_pipeline: true
+
+  prod:
+    mode: production
+    workspace:
+      host: ${var.workspace_host}
+      root_path: /Workspace/Users/${var.workspace_user}/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      env_name: "prod"
+      tag_environment: "prod"
+      catalogo: "electrocasa_prod"
+      path_landing: "/Volumes/electrocasa_prod/bronze/landing"
+      path_schema_base: "/Volumes/electrocasa_prod/bronze/landing/schemas"
+      development_mode_pipeline: false
