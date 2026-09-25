@@ -34,7 +34,7 @@ resources:
           depends_on:
             - task_key: silver_gold
           notebook_task:
-            notebook_path: ../notebooks/governance/aplicar_seguridad.py
+            notebook_path: notebooks/governance/aplicar_seguridad.py
             base_parameters:
               catalogo: ${var.catalogo}
           max_retries: 1
