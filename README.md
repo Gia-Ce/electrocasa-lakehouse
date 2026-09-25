@@ -162,10 +162,27 @@ Cada pipeline publica un event log en `observability`. El archivo `electrocasa/r
 Para documentar una ejecución propia, registrar target, catálogo, fecha, identificador de ejecución y resultado de las consultas. Capturas sugeridas, diferentes de los ejemplos de referencia:
 
 - Detalle de V03 con causas de rechazo por fuente.
+![Validación rechazo por fuente](/docs/imagenes/validacion1.png)
 - V05 mostrando productos con discrepancias o un resultado sin diferencias.
+![Validacion productos con discrepancias](/docs/imagenes/validacion2.png)
 - V08 con conciliación de dotación por sucursal.
+![Validación conciliación de dotación](/docs/imagenes/validacion3.png)
 - V10 con valores ficticios de prueba y pertenencia al grupo.
+![Validación ficticios de prueba](/docs/imagenes/masking1.png)
+![Validación ficticios de prueba](/docs/imagenes/masking2.png)
 - DAG real con sus seis tareas y estado final.
+![DAG real](/docs/imagenes/deploybundle.png)
+![DAG real](/docs/imagenes/jobendend.png)
+![DAG real](/docs/imagenes/jobendtoend.png)
+![DAG real](/docs/imagenes/logs.png)
+- Dashboard y datasets
+![Dashboard ](/docs/imagenes/queries1dashboard.png)
+![Dashboard ](/docs/imagenes/queries2dashboard.png)
+![Dashboard ](/docs/imagenes/queries3dashboard.png)
+![Dashboard ](/docs/imagenes/queries4dashboard.png)
+![Dashboard ](/docs/imagenes/queries5dashboard.png)
+![Dashboard ](/docs/imagenes/queries6dashboard.png)
+![Dashboard ](/docs/imagenes/dashboard.png)
 
 Las capturas de referencia muestran otro nombre de job y otra estructura de tareas; no acreditan una ejecución de este bundle. No se incorporan enlaces a imágenes inexistentes ni cifras tomadas de ellas.
 
