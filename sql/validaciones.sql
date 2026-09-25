@@ -5,6 +5,7 @@ SELECT table_schema, table_name, table_type
 FROM information_schema.tables
 WHERE table_schema IN ('bronze', 'silver', 'gold', 'observability')
 ORDER BY table_schema, table_name;
+-- COMMAND ----------
 
 -- 2. Reglas críticas de Silver. Esperado: infracciones = 0 y filas > 0.
 SELECT 'ventas' AS tabla, COUNT(*) AS filas,
@@ -18,6 +19,7 @@ UNION ALL
 SELECT 'devoluciones', COUNT(*),
        SUM(CASE WHEN monto_reembolso IS NULL OR monto_reembolso < 0 THEN 1 ELSE 0 END)
 FROM silver.devoluciones;
+-- COMMAND ----------
 
 -- 3. Motivos de cuarentena y trazabilidad
 WITH rechazos AS (
@@ -35,6 +37,7 @@ SELECT fuente, motivo_rechazo, COUNT(*) AS registros,
 FROM rechazos
 GROUP BY fuente, motivo_rechazo
 ORDER BY fuente, registros DESC;
+-- COMMAND ----------
 
 -- 4. Ambigüedad del catálogo antes de los joins Gold
 WITH atributos AS (
@@ -44,7 +47,7 @@ SELECT producto_id, COUNT(*) AS variantes_atributos
 FROM atributos
 GROUP BY producto_id
 HAVING COUNT(*) > 1 OR producto_id IS NULL;
-
+-- COMMAND ----------
 -- 5. Reembolsos por producto, detecta duplicaciones de Gold y productos faltantes en cualquiera de los lados
 
 WITH esperado AS (
@@ -61,6 +64,7 @@ WHERE o.presente IS NULL OR o.filas <> 1
    OR (e.presente IS NOT NULL AND NOT (ABS(e.monto - o.monto) <= 0.01))
    OR (e.presente IS NOT NULL AND o.monto IS NULL)
    OR (e.presente IS NULL AND NOT (o.monto <=> 0));
+-- COMMAND ----------
 
 -- 6. Unicidad de versiones SCD2 
 SELECT id_empleado, COUNT(*) AS versiones_vigentes
@@ -68,6 +72,7 @@ FROM silver.empleados_historial
 WHERE __END_AT IS NULL
 GROUP BY id_empleado
 HAVING COUNT(*) > 1 OR id_empleado IS NULL;
+-- COMMAND ----------
 
 -- 7. Intervalos SCD2 invertidos o superpuestos
 WITH intervalos AS (
@@ -82,6 +87,7 @@ SELECT * FROM intervalos
 WHERE __START_AT IS NULL
    OR (__END_AT IS NOT NULL AND __END_AT <= __START_AT)
    OR __START_AT < fin_previo;
+-- COMMAND ----------
 
 -- 8. Dotación por sucursal conciliada
 WITH esperado AS (
@@ -98,6 +104,7 @@ SELECT COALESCE(e.sucursal_id, o.sucursal_id) AS sucursal_id,
 FROM esperado e FULL OUTER JOIN observado o ON e.sucursal_id <=> o.sucursal_id
 WHERE e.presente IS NULL OR o.presente IS NULL OR o.filas <> 1
    OR NOT (e.empleados <=> o.empleados);
+-- COMMAND ----------
 
 -- 9. Coherencia de tasas de reseñas
 SELECT categoria, cantidad_resenas, resenas_negativas, tasa_resenas_negativas
@@ -107,20 +114,21 @@ WHERE cantidad_resenas IS NULL OR cantidad_resenas <= 0
    OR resenas_negativas > cantidad_resenas
    OR NOT (tasa_resenas_negativas <=>
            ROUND(100.0 * resenas_negativas / NULLIF(cantidad_resenas, 0), 2));
+-- COMMAND ----------
 
 -- 10. Estado de las funciones de masking
 SELECT current_user() AS usuario,
        is_account_group_member('electrocasa_engineers') AS es_engineer,
        silver.mask_dni('87654321') AS dni_prueba,
        silver.mask_salario(CAST(2750 AS DOUBLE)) AS salario_prueba;
-
+-- COMMAND ----------
 -- 11. Inspeccionar en la salida las máscaras aplicadas a dni y salario
 DESCRIBE TABLE EXTENDED silver.empleados_historial;
-
+-- COMMAND ----------
 -- 12. Permisos configurados
 SHOW GRANTS ON SCHEMA silver;
 SHOW GRANTS ON SCHEMA gold;
-
+-- COMMAND ----------
 -- 13. Errores recientes en los 3 pipelines
 WITH eventos AS (
   SELECT 'bronze' AS capa, timestamp, level, event_type, message
